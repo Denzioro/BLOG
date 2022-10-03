@@ -5,6 +5,10 @@
   margin-bottom: 30px;
 }
 
+.root a {
+  text-decoration: none;
+}
+
 .inner {
   display: -webkit-box;
   display: -ms-flexbox;
