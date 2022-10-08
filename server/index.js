@@ -32,8 +32,11 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
 app.use(express.json());
+
 app.use(cors());
+
 app.use('/uploads', express.static('uploads'));
 
 app.get('/', (req, res) => {
@@ -47,7 +50,7 @@ app.post(
   UserControler.login
 );
 app.post(
-  '/auth/registr',
+  '/auth/register',
   registrValidation,
   handleValidationErrors,
   UserControler.register
@@ -65,6 +68,7 @@ app.get('/tags', PostControler.getLastTags);
 app.get('/posts', PostControler.getAllPosts);
 app.get('/posts/tags', PostControler.getLastTags);
 app.get('/posts/:id', PostControler.getOnePost);
+
 app.post(
   '/posts',
   checkAuth,
@@ -72,7 +76,7 @@ app.post(
   handleValidationErrors,
   PostControler.create
 );
-app.delete('/posts/:id', checkAuth, PostControler.removePost);
+
 app.patch(
   '/posts/:id',
   checkAuth,
@@ -80,6 +84,7 @@ app.patch(
   handleValidationErrors,
   PostControler.updatePost
 );
+app.delete('/posts/:id', checkAuth, PostControler.removePost);
 
 const PORT = 4444;
 app.listen(PORT, (err) => {

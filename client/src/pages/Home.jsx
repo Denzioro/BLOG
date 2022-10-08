@@ -12,6 +12,7 @@ import { fetchPosts, fetchTags } from '../redux/slices/posts';
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector((state) => state.posts);
+  const userData = useSelector((state) => state.auth.data);
 
   const isPostsLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
@@ -20,7 +21,7 @@ export const Home = () => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
   }, [dispatch]);
-
+  console.log(posts);
   return (
     <>
       <Tabs
@@ -38,15 +39,18 @@ export const Home = () => {
               <Post key={index} isLoading={true} />
             ) : (
               <Post
+                key={index}
                 id={obj._id}
                 title={obj.title}
-                imageUrl={obj.imageUrl}
+                imageUrl={
+                  obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''
+                }
                 user={obj.user}
                 createdAt={obj.createdAt.match(/^\d{4}[-/]\d{2}[-/]\d{2}/gim)}
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable
+                isEditable={userData?._id === obj.user._id}
               />
             )
           )}

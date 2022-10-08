@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import { useParams } from 'react-router-dom';
 
 import { Post } from '../components/Post';
@@ -28,13 +29,14 @@ export const FullPost = () => {
   if (isLoading) {
     return <Post isLoading={isLoading} isFullPost />;
   }
-
+  // console.log(data.imageUrl);
+  // console.log(data);
   return (
     <>
       <Post
         id={data._id}
         title={data.title}
-        imageUrl={data.imageUrl}
+        imageUrl={data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ''}
         user={data.user}
         createdAt={data.createdAt.match(/^\d{4}[-/]\d{2}[-/]\d{2}/gim)}
         viewsCount={data.viewsCount}
@@ -42,7 +44,7 @@ export const FullPost = () => {
         tags={data.tags}
         isFullPost
       >
-        <p>{data.text} </p>
+        <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
         items={[
